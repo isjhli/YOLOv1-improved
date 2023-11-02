@@ -188,7 +188,7 @@ class ResNet(nn.Module):
 
         # 以下global avgpool和softmax层在目标检测任务中不需要
         # x = self.avgpool(x)
-        # x = x.view(x.size[0], -1)
+        # x = x.view(x.size(0), -1)
         # x = self.fc(x)
 
         return x
