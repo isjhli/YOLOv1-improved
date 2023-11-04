@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument('--eval_epoch', type=int,
                         default=10, help='interval between evaluations')
     parser.add_argument('--save_folder', default='weights/', type=str,
-                        help='Ganna update for SGD')
+                        help='Gamma update for SGD')
     parser.add_argument('--num_workers', default=8, type=int,
                         help='Number of workers used in dataloading')
     
@@ -254,7 +254,7 @@ def train():
                 print('Saving state, epoch:', epoch + 1)
                 weight_name = '{}_epoch_{}_{:.1f}.pth'.format(args.version, epoch + 1, best_map * 100)
                 checkpoint_path = os.path.join(path_to_save, weight_name)
-                torch.save(model.state_dict, checkpoint_path)
+                torch.save(model.state_dict(), checkpoint_path)
 
 
 

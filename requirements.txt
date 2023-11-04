@@ -1,9 +1,10 @@
 # Usage: pip install -r requirements.txt
 
-numpy
-torchvision
-opencv-python
-thop
-scipy
-matplotlib
+torch>=1.8.0
+numpy>=1.22.2
+torchvision>=0.9.0
+opencv-python>=4.1.1
+thop>=0.1.1  # FLOPs computation
+scipy>=1.4.1
+matplotlib>=3.3
 pycocotools

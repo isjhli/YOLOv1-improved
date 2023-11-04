@@ -100,6 +100,7 @@ class VOCDetection(data.Dataset):
                  dataset_name='VOC0712'
                  ):
         self.root = root
+        self.img_size = img_size
         self.image_set = image_sets
         self.transform = transform
         self.target_transform = target_transform
@@ -190,7 +191,7 @@ class VOCDetection(data.Dataset):
     
 
 if __name__ == '__main__':
-    from transfrom import Augmentation, BaseTransform
+    from transform import Augmentation, BaseTransform
 
     img_size = 640
     pixel_mean = (0.406, 0.456, 0.485) # BGR
