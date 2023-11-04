@@ -203,7 +203,7 @@ def resnet18(pretrained=False, **kwargs):
     model = ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)
     if pretrained:
         # strict = False因为我们不需要fc层参数。
-        model.load_state_dict(model_zoo.load_url(model_urls['resnet19']), strict=False)
+        model.load_state_dict(model_zoo.load_url(model_urls['resnet18']), strict=False)
     return model
 
 def resnet34(pretrained=False, **kwargs):

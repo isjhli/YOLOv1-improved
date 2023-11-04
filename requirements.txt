@@ -1,0 +1,9 @@
+# Usage: pip install -r requirements.txt
+
+numpy
+torchvision
+opencv-python
+thop
+scipy
+matplotlib
+pycocotools

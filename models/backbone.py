@@ -59,7 +59,7 @@ class BasicBlock(nn.Module):
         out = self.conv2(out)
         out = self.bn2(out)
 
-        if self.dowmsample is not None:
+        if self.downsample is not None:
             identity = self.downsample(x)
 
         out += identity
@@ -117,7 +117,7 @@ class ResNet(nn.Module):
             num_classes (int): 类别数目
             zero_init_residual (bool): 若为True则将每个残差块的最后一个BN层初始化为零，
                 这样残差分支从零开始每一个残差分支，每一个残差块表现的就像一个恒等映射，根据
-                https://arxiv.org/abs/1706.02677这可以将模型的性能提升0.2~0.3%
+                https://arxiv.org/abs/1706.02677 这可以将模型的性能提升0.2~0.3%
         """
         super(ResNet, self).__init__()
         self.inplanes = 64 # 第一个残差块的输入通道数
@@ -125,7 +125,7 @@ class ResNet(nn.Module):
                                bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=3, padding=1)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
 
         # stage1 ~ stage4
         self.layer1 = self._make_layer(block, 64, layers[0])
@@ -203,7 +203,7 @@ def resnet18(pretrained=False, **kwargs):
     model = ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)
     if pretrained:
         # strict = False因为我们不需要fc层参数。
-        model.load_state_dict(model_zoo.load_url(model_urls['resnet19']), strict=False)
+        model.load_state_dict(model_zoo.load_url(model_urls['resnet18']), strict=False)
     return model
 
 def resnet34(pretrained=False, **kwargs):

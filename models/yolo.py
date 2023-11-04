@@ -2,10 +2,10 @@ import torch
 import torch.nn as nn
 import numpy as np
 
-from basic import Conv, SPP
-from backbone import build_resnet
+from .basic import Conv, SPP
+from .backbone import build_resnet
 
-from loss import compute_loss
+from .loss import compute_loss
 
 class myYOLO(nn.Module):
     def __init__(self, device, input_size=None, num_classes=20, trainable=False, conf_thresh=0.01, nms_thresh=0.5):
@@ -59,7 +59,7 @@ class myYOLO(nn.Module):
         init_prob = 0.01
         bias_value = -torch.log(torch.tensor((1. - init_prob) / init_prob))
         nn.init.constant_(self.pred.bias[..., :1], bias_value)
-        nn.init.constant_(self.bias[..., 1:1+self.num_classes], bias_value)
+        nn.init.constant_(self.pred.bias[..., 1:1+self.num_classes], bias_value)
     
 
     def create_grid(self, input_size):
@@ -76,7 +76,6 @@ class myYOLO(nn.Module):
         ws, hs = w // self.stride, h // self.stride
         # 生成网格的x坐标和y坐标
         grid_y, grid_x = torch.meshgrid([torch.arange(hs), torch.arange(ws)])
-
         # 将xy两部分的坐标拼起来：[H, W, 2]
         grid_xy = torch.stack([grid_x, grid_y], dim=-1).float()
         # [H, W, 2] -> [HW, 2] -> [HW, 2]
@@ -220,7 +219,7 @@ class myYOLO(nn.Module):
         txtytwth_pred = txtytwth_pred[0] # [H*W, 4]
 
         # 每个边界框的得分
-        scores = torch.sigmoid(conf_pred) * torch.sofrmax(cls_pred, dim=-1)
+        scores = torch.sigmoid(conf_pred) * torch.softmax(cls_pred, dim=-1)
 
         # 解算边界框，并归一化边界框：[H*W, 4]
         bboxes = self.decode_boxes(txtytwth_pred) / self.input_size
